@@ -1,0 +1,18 @@
+.container{
+    padding: 30px;
+}
+
+.card{
+    padding: 20px;
+    
+    background-color: aliceblue;
+     border-radius: 10px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+}
+
