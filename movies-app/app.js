@@ -1,13 +1,13 @@
 const express =require ('express');
 const cors = require('cors');
-const homeRoutes = require("./routes/home.routes");
+// const homeRoutes = require("./routes/home.routes");
 const movieRoutes= require('./routes/movie.route');
 // const userRoutes =require("./routes/user.route");
-const userDAO = require ("./dao/user.dao");
-const session = require('express-session');
+// const userDAO = require ("./dao/user.dao");
+// const session = require('express-session');
 
 const app=express();
-const port =3002;
+const port =8080;
 
 app.use(express.json());
 app.use(cors());
@@ -17,41 +17,41 @@ const corsOptions ={
     optionSuccessStatus:200,
  }
  app.use(cors(corsOptions)) //
-app.use(session({
-    secret: 'user_id',
-    resave : false,
-    saveUninitialized :false,
+// app.use(session({
+//     secret: 'user_id',
+//     resave : false,
+//     saveUninitialized :false,
 
-}));
+// }));
 
 
-app.use("/",homeRoutes);
+// app.use("/",homeRoutes);
 app.use("/movies",movieRoutes);
 // app.use("/",userRoutes);
-app.post("/register", async function (req, res) {
-    const { customer_id,username,password,firstname,lastname } = req.body;
-    const existUser = await userDAO.getUserByUsername(req.body.username);
-    if (existUser) {
-        return res.status(409).json({ message: "User with email already exists!" });
-      }
-    // //Validate
-    // if (!req.body || req.body == {}) {
-    //     res.status(400).send();
-    //     return;
-    // }
-    //Add it to our database
-    // const usernameDao = await userDAO.getUserByUsername(req.body.username);
-    // const passwordDao =await userDAO.getUserByPassword(req.body.password);
-    const newUser = await userDAO.createCustomerById(req.body)
-    //As a form of Confirmation, let's send back the added employee.
-    res.send(newUser);
-})
+// app.post("/register", async function (req, res) {
+//     const { customer_id,username,password,firstname,lastname } = req.body;
+//     const existUser = await userDAO.getUserByUsername(req.body.username);
+//     if (existUser) {
+//         return res.status(409).json({ message: "User with email already exists!" });
+//       }
+//     // //Validate
+//     // if (!req.body || req.body == {}) {
+//     //     res.status(400).send();
+//     //     return;
+//     // }
+//     //Add it to our database
+//     // const usernameDao = await userDAO.getUserByUsername(req.body.username);
+//     // const passwordDao =await userDAO.getUserByPassword(req.body.password);
+//     const newUser = await userDAO.createCustomerById(req.body)
+//     //As a form of Confirmation, let's send back the added employee.
+//     res.send(newUser);
+// })
 
 
 
-app.get('/',(req,res)=>{
-    const sessionData =req.session;
-})
+// app.get('/',(req,res)=>{
+//     const sessionData =req.session;
+// })
 
 
 // app.post('/login',(req,res)=>{
@@ -69,29 +69,30 @@ app.get('/',(req,res)=>{
 // });
 
 
-app.post('/login', function(request, response) {
-let username = request.body.username;
-	let password = request.body.password;
-	let usernameDao = userDAO.getUserByUsername(username);
-    let passwordDao = userDAO.getUserByPassword(password);
-    if(usernameDao && passwordDao){
-        request.session.loggedin = true;
-        request.session.username = username;
-        // Redirect to home page
-        response.redirect('/movies');
-    } else {
-        response.send('Incorrect Username and/or Password!');
-    }	
-    response.end();		
+// app.post('/login', function(request, response) {
+// let username = request.body.username;
+// 	let password = request.body.password;
+// 	let usernameDao = userDAO.getUserByUsername(username);
+//     let passwordDao = userDAO.getUserByPassword(password);
+//     if(usernameDao && passwordDao){
+//         request.session.loggedin = true;
+//         request.session.username = username;
+//         // Redirect to home page
+//         response.redirect('/movies');
+//     } else {
+//         response.send('Incorrect Username and/or Password!');
+//     }	
+//     response.end();		
 
     
-});
+// });
 
 
-
+var server = app.listen();
+server.setTimeout(500000);
 app.listen(port,()=>{
     console.log(`movies-app is listening on port ${port}`);
-    console.log("You can start using the app at: http://localhost:3002/");
+    console.log(`You can start using the app at: http://localhost:${port}/`);
 
 })
 

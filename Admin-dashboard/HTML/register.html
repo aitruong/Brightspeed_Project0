@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="../CSS/register.css" rel="stylesheet">
+</head>
+<body>
+   <h2 >Create an Account </h2>
+   <div id="register">
+    <form id="register-form">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="John" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" >
+          </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" id="firstname" placeholder="Henry" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" id="lastname" placeholder="Nguyen">
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Create an account</button> &nbsp;
+        Have an account? <a href="https://storage.googleapis.com/movie-rental-414417.appspot.com/Admin-dashboard/HTML/login.html">Login</a>
+      </form>
+      </div>
+</body>
+<script>
+
+document.getElementById("register-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+
+    const firstname = document.getElementById("firstname").value;
+    const lastname = document.getElementById("lastname").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const data = {
+        
+        username:username,
+        password:password,
+        firstname:firstname,
+        lastname:lastname
+    };
+
+    console.log(data);
+    postData("https://34.120.226.116.nip.io/users-api/register", data)
+        .then((data) => {
+          console.log(data);
+          //  console.log(data);
+          //  alert("Succesfully Resgistered.Please login");
+            window.location.href="https://storage.googleapis.com/movie-rental-414417.appspot.com/Admin-dashboard/HTML/login.html";
+            // console.log(response);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+});
+
+async function postData(url = "", data = {}) {
+    const response = await fetch(url, {
+        method: "POST",
+        mode:"cors",
+        // headers: {
+        //     "Content-Type": "application/json"
+            
+        // },
+        
+        body: JSON.stringify(data)
+       
+    });
+
+    return await response.json();
+}
+        
+             
+
+</script>
+</html>

@@ -16,7 +16,7 @@ const client = require('../db-connect');
         }
     
         return {
-            movie_id: data.id,
+            movie_id: data.movie_id,
             title: data.title,
             price: Number(data.price),
             available: data.available,
@@ -25,9 +25,9 @@ const client = require('../db-connect');
         }
     }
 
-    async function selectMovie(id) {
-        const sql = "SELECT * FROM movies WHERE id=$1"
-        const values = [id]; 
+    async function selectMovie(movie_id) {
+        const sql = "SELECT * FROM movies WHERE movie_id=$1"
+        const values = [movie_id]; 
     
     
         const result = await client.query(sql, values);
@@ -46,34 +46,29 @@ const client = require('../db-connect');
     }
 
     async function updateMovie(movie) {
-        const sql = "UPDATE movies SET title=$1, genre= $2, available=$3, price=$4 WHERE id = $6 RETURNING *";
-        const values = [movie.title, movie.genre, movie.available, movie.price, employee.id];
+        const sql = "UPDATE movies SET title=$1, genre= $2, available=$3, price=$4 WHERE movie_id = $6 RETURNING *";
+        const values = [movie.title, movie.genre, movie.available, movie.price, movie.movie_id];
     
         const result = await client.query(sql, values);
     
         return convertMovieData(result.rows[0]);
     }
     
-    async function deleteMovie(id) {
-        const sql = "DELETE FROM movies WHERE id=$1 RETURNING *";
-        const values = [id];
+    async function deleteMovie(movie_id) {
+        const sql = "DELETE FROM movies WHERE movie_id=$1 RETURNING *";
+        const values = [movie_id];
     
         const result = await client.query(sql, values);
     
         return convertMovieData(result.rows[0]);
     }
     
-    
-    
-    
-    
-
-
+   
 
 module.exports={
 
     getAllMovies:selectAllMovies,
-    getMovieById : selectAllMovies,
+    getMovieById : selectMovie,
     createMovie : insertMovie,
     updateMovieById :updateMovie,
     deleteMovieById :deleteMovie

@@ -1,0 +1,8 @@
+runtime: nodejs20
+service: userservice
+inbound_services:
+- warmup
+automatic_scaling:
+  
+  max_instances: 1
+  

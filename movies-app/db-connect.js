@@ -1,8 +1,8 @@
 const {Client} = require ('pg');
 const client = new Client({
-    host: '35.238.90.38',
+    host: '/cloudsql/movie-rental-414417:us-central1:postgres',
     port : 5432,
-    database: 'postgres',
+    database: 'movie-service',
     user:'postgres',
     password: 'Vietnam67!'
 
